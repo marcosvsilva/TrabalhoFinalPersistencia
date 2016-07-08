@@ -1,129 +1,54 @@
 package Conexao;
 
-import Layout.DataBaseSAEP;
 import com.google.gson.Gson;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  * Created by Marcos on 05/07/2016.
  */
 
-public abstract class ConexaoBD<param>
+public class ConexaoBD
 {
-    /*
     private Gson gson = new Gson();
-    private DataBaseSAEP dataBase = new DataBaseSAEP();
+    private MongoDatabase mongo;
+
+    public ConexaoBD()
+    {
+        this.mongo = InstanciaConexao.getConnection();
+    }
+
+    /*
+        CRUD do banco de dados
     */
 
-    /*
-        Criação dos collections relatos, itens, regras e parecer
-    */
-
-    /*
-    public void createRelatos(Object relatos)
+    public void create(String json, String collectionName)
     {
-        String jason = gson.toJson(relatos);
-        dataBase.create(jason,"relatos");
+        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+        Document create = Document.parse(json);
+        collection.insertOne(create);
     }
 
-    public void createItens(Object itens)
+    public Document read(String filter, String key, String collectionName)
     {
-        String jason = gson.toJson(itens);
-        dataBase.create(jason,"itens_avaliados");
+        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+        return collection.find(eq(filter,key)).first();
     }
 
-    public void createRegras(Object regras)
+    public void update(String filter, String key, String json, String collectionName)
     {
-        String jason = gson.toJson(regras);
-        dataBase.create(jason,"regras");
+        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+        Document update = Document.parse(json);
+        collection.replaceOne(eq(filter,key),update);
     }
 
-    public void createParecer(Object parecer)
+    public void delete(String filter, String key, String json, String collectionName)
     {
-        String jason = gson.toJson(parecer);
-        dataBase.create(jason,"parecer");
+        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+        collection.deleteOne(eq(filter,key));
     }
 
-    /*
-        Busca das collections relatos, itens, regras e parecer
-    */
-
-    /*
-    public Object readRelatos(Integer ID)
-    {
-        String gsonRelatos = dataBase.read("relatos",ID);
-        Object relatos = gson.fromJson(gsonRelatos,Object.class);
-        return relatos;
-    }
-
-    public Object readItens(Integer ID)
-    {
-        String gsonItens = dataBase.read("itens",ID);
-        Object itens = gson.fromJson(gsonItens,Object.class);
-        return itens;
-    }
-
-    public Object readRegras(Integer ID)
-    {
-        String gsonRegras = dataBase.read("regras",ID);
-        Object regras = gson.fromJson(gsonRegras,Object.class);
-        return regras;
-    }
-
-    public Object readParecer(Integer ID)
-    {
-        String gsonParecer = dataBase.read("regras",ID);
-        Object parecer = gson.fromJson(gsonParecer,Object.class);
-        return parecer;
-    }
-
-    /*
-        Update das collections relatos, itens, regras e parecer
-    */
-
-    /*
-    public void updateRelatos(Integer ID, Object campo)
-    {
-        //
-    }
-
-    public void updateItens(Integer ID, Object campo)
-    {
-        //
-    }
-
-    public void updateRegras(Integer ID, Object campo)
-    {
-        //
-    }
-
-    public void updateParecer(Integer ID, Object campo)
-    {
-        //
-    }
-
-    /*
-        Delete das collections relatos, itens, regras e parecer
-    */
-
-    /*
-    public void deleteRelatos(Integer ID)
-    {
-        //
-    }
-
-    public void deleteItens(Integer ID)
-    {
-        //
-    }
-
-    public void deleteRegras(Integer ID)
-    {
-        //
-    }
-
-    public void deleteParecer(Integer ID)
-    {
-        //
-    }
-    */
 }

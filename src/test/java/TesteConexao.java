@@ -6,7 +6,7 @@ import com.mongodb.client.MongoDatabase;
     foi criado 5 conexões e instanciadas pela classe de instância de conexão
     e monitorado.
 
-    Das 5 conexões criadas, o mongoDB permanecei ativa somente 1 conexão todo o tempo
+    Das 5 conexões criadas, o mongoDB permanece ativa somente 1 conexão.
     Teste realizado e concluído com sucesso.
  */
 
