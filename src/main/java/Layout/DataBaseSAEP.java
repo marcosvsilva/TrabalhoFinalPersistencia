@@ -1,11 +1,9 @@
 package Layout;
 
-
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.async.client.MongoDatabase;
-import org.bson.BsonString;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 /**
@@ -14,17 +12,22 @@ import org.bson.Document;
 public class DataBaseSAEP
 {
     private MongoClient dataBaseClient = (MongoClient) new Object();
-    private MongoDatabase dataBase = dataBaseClient.getDatabase("SAEP");
+    //private MongoDatabase dataBase = (MongoDatabase) dataBaseClient.getDatabaseNames("SAEP");
 
-    public void create(String nomeDoc, String collection)
+    /*
+    CRUDE do banco de dados
+    */
+
+    /*
+    public void create(String json, String collection)
     {
-        Document docCreate = new Document(nomeDoc,null)
-        dataBase.getCollection(collection).insertOne(docCreate,null);
+        Document document = new Document("document",json);
+        dataBase.getCollection(collection).insertOne(document,null);
     }
 
     public String read(String nomeCollection, Integer ID)
     {
-        BsonString readDoc = dataBase.getCollection(nomeCollection).findOne("_id"+ID,1);
+        BonString readDoc = dataBase.getCollection(nomeCollection).findOne("_id"+ID,1);
         String result = readDoc.toString();
         return result;
     }
@@ -39,8 +42,8 @@ public class DataBaseSAEP
 
     public void delete(String nomeCollection, Integer ID)
     {
-        DBCollection collection = (DBCollection) dataBase.getCollection(nomeCollection);
-        DBObject deleteDoc = collection.findOne(eq("id",ID));
-        collection.remove(deleteDoc);
+        Document filter = new Document("id",ID);
+        dataBase.getCollection(nomeCollection).findOneAndDelete(filter);
     }
+    */
 }
