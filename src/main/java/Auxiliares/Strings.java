@@ -5,9 +5,15 @@ package Auxiliares;
  */
 public class Strings
 {
+    public static final String enderecoConfiguracao = "./Configuracao/config.properties";
+
+    public static final String tagDataBase = "DataBase";
+
     public static final String collectionParecer = "parecer";
 
     public static final String collectionRadoc = "radoc";
 
     public static final String ID = "id";
+
+    public static final String IDTeste = "1";
 }

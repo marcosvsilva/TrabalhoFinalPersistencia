@@ -1,5 +1,6 @@
 package Conexao;
 
+import Auxiliares.Strings;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -40,9 +41,9 @@ public class InstanciaConexao
     private static String getProperties() throws IOException
     {
         Properties properties = new Properties();
-        FileInputStream file = new FileInputStream("./Configuracao/config.properties");
+        FileInputStream file = new FileInputStream(Strings.enderecoConfiguracao);
         properties.load(file);
-        return properties.getProperty("DataBase");
+        return properties.getProperty(Strings.tagDataBase);
     }
 
     /*
@@ -72,9 +73,9 @@ public class InstanciaConexao
             {
                 String dataBase = getProperties();              //busca do nome do banco
                 mongoDB = mongoClient.getDatabase(dataBase);    //criação da conexão
-                createCollections("parecer");                   //cria a collection parecer
-                createCollections("radoc");                     //cria a collection radoc
-            } catch(IOException e) {System.out.println(e);}     // caso houver falhas, imprimi a falha.
+                createCollections(Strings.collectionParecer);   //cria a collection parecer
+                createCollections(Strings.collectionRadoc);     //cria a collection radoc
+            } catch(IOException e) {System.out.println(e);}     //caso houver falhas, imprimi a falha.
         }
         return mongoDB;                                         //retorno da conexão se já criada.
     }

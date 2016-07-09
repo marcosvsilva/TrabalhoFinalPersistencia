@@ -40,7 +40,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository
         if (existeParecer == null)
         {
             String parecerJson = gson.toJson(parecer);
-            conexao.create(parecerJson,Strings.collectionParecer);
+            conexao.create(parecerJson, Strings.collectionParecer);
         }
     }
 
@@ -83,6 +83,14 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public String persisteRadoc(Radoc radoc)
     {
+        Radoc existeRadoc = byId(radoc.getId());
+
+        if (existeRadoc == null)
+        {
+            String radocJson = gson.toJson(radoc);
+            conexao.create(radocJson, Strings.collectionRadoc);
+        }
+
         return null;
     }
 
