@@ -31,7 +31,6 @@ public class ConexaoBD
         Document create = Document.parse(json);
         collection.insertOne(create);
     }
-
     public Document read(String filter, String key, String collectionName)
     {
         MongoCollection<Document> collection = mongo.getCollection(collectionName);
@@ -45,7 +44,7 @@ public class ConexaoBD
         collection.replaceOne(eq(filter,key),update);
     }
 
-    public void delete(String filter, String key, String json, String collectionName)
+    public void delete(String filter, String key, String collectionName)
     {
         MongoCollection<Document> collection = mongo.getCollection(collectionName);
         collection.deleteOne(eq(filter,key));

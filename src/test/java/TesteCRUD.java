@@ -2,8 +2,6 @@ import Conexao.ConexaoBD;
 import com.google.gson.Gson;
 import org.bson.Document;
 
-import java.util.ArrayList;
-
 /*
     Teste da classe CRUD do banco de dados
     Create, Read, Update e Delete
@@ -55,8 +53,8 @@ public class TesteCRUD
         update("id","1",json);
         System.out.println("Informações alteradas");
 
-        TestCrud testCollectionParecer = readParecer();
-        TestCrud testCollectionRadoc = readRadoc();
+        TestCrud testCollectionParecer = readParecer("id","1");
+        TestCrud testCollectionRadoc = readRadoc("id","1");
 
         System.out.println("Informacoes recuperadas da collecion Parecer");
         System.out.println("id = " + testCollectionParecer.getId());
@@ -65,6 +63,8 @@ public class TesteCRUD
         System.out.println("Informacoes recuperadas da collecion Radoc");
         System.out.println("id = " + testCollectionRadoc.getId());
         System.out.println("informacao = " + testCollectionRadoc.getInformacao());
+
+        delete("id","1");
     }
 
     private static void create(String json)
@@ -79,19 +79,23 @@ public class TesteCRUD
         conexao.update(filtro,key,json,"radoc");
     }
 
-    private static TestCrud readParecer()
+    private static TestCrud readParecer(String filtro, String key)
     {
         Document parecerDocument = conexao.read("id","1","parecer");
-        String parecerString = parecerDocument.toString();
-        TestCrud parecerObjeto = gson.fromJson(parecerString, TestCrud.class);
+        TestCrud parecerObjeto = gson.fromJson(parecerDocument.toJson(), TestCrud.class);
         return parecerObjeto;
     }
 
-    private static TestCrud readRadoc()
+    private static TestCrud readRadoc(String filtro, String key)
     {
         Document radocDocument = conexao.read("id","1","radoc");
-        String radocString = radocDocument.toString();
-        TestCrud radocObjeto = gson.fromJson(radocString, TestCrud.class);
+        TestCrud radocObjeto = gson.fromJson(radocDocument.toJson(), TestCrud.class);
         return radocObjeto;
+    }
+
+    private static void delete(String filtro, String key)
+    {
+        conexao.delete(filtro,key,"parecer");
+        conexao.delete(filtro,key,"radoc");
     }
 }
