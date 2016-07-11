@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import org.bson.Document;
 import Auxiliares.Strings;
 
+import java.util.List;
+
 /**
  * Created by marco_000 on 05/07/2016.
  */
@@ -23,12 +25,35 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void adicionaNota(String s, Nota nota)
     {
+        Parecer parecer = byId(s);
+
+        if (parecer != null)
+        {
+            List<Nota> notas = parecer.getNotas();
+            notas.add(nota);
+
+            Parecer parecerUpdate = new Parecer(
+                    parecer.getId(),
+                    parecer.getResolucao(),
+                    parecer.getRadocs(),
+                    parecer.getPontuacoes(),
+                    parecer.getFundamentacao(),
+                    notas
+            );
+
+            String parecerJson = gson.toJson(parecerUpdate);
+            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
+        }  else
+        {
+            throw new IdentificadorDesconhecido(s);
+        }
 
     }
 
     @Override
-    public void removeNota(Avaliavel avaliavel)
+    public void removeNota(String s, Avaliavel avaliavel)
     {
+        Parecer parecer = byId(s);
 
     }
 
@@ -47,7 +72,23 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void atualizaFundamentacao(String s, String s1)
     {
+        Parecer parecer = byId(s);
 
+        if (parecer != null)
+        {
+            Parecer parecerUpdate = new Parecer(
+                    parecer.getId(),
+                    parecer.getResolucao(),
+                    parecer.getRadocs(),
+                    parecer.getPontuacoes(),
+                    s1,
+                    parecer.getNotas()
+            );
+
+
+            String parecerJson = gson.toJson(parecerUpdate);
+            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
+        }
     }
 
     @Override
@@ -65,7 +106,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void removeParecer(String s)
     {
-
+        conexao.delete(Strings.ID, s, Strings.collectionParecer);
     }
 
     @Override
@@ -83,7 +124,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public String persisteRadoc(Radoc radoc)
     {
-        Radoc existeRadoc = byId(radoc.getId());
+        Radoc existeRadoc = radocById(radoc.getId());
 
         if (existeRadoc == null)
         {
@@ -97,6 +138,6 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void removeRadoc(String s)
     {
-
+        conexao.delete(Strings.ID, s, Strings.collectionRadoc);
     }
 }
