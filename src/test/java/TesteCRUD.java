@@ -3,6 +3,9 @@ import Conexao.ConexaoBD;
 import com.google.gson.Gson;
 import org.bson.Document;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /*
     Teste da classe CRUD do banco de dados
     Create, Read, Update e Delete
@@ -39,33 +42,51 @@ public class TesteCRUD
     public static void main(String[] args)
     {
 
-        TesteCRUD.TestCrud testCreate = new TesteCRUD.TestCrud(Strings.IDTeste,"Teste de CRUD");
+        TestCrud[] testeCrud = new TestCrud[Strings.numeroMaximoTestes];
+
+        for (int i = 0; i < Strings.numeroMaximoTestes; i++)
+            testeCrud[i] = new TestCrud(Integer.toString(i), "Teste de Crud");
 
         // Teste de inserção de informações
-        String json = gson.toJson(testCreate);
-        create(json);
+        ArrayList<String> json = new ArrayList<>();
+
+        for (int i = 0; i < Strings.numeroMaximoTestes; i++)
+            json.add(gson.toJson(testeCrud[i]));
+
+        for (int i = 0; i < json.size(); i++)
+            create(json.get(i));
+
         System.out.println("Informações gravadas no banco");
-        System.out.println("id = " + testCreate.getId());
-        System.out.println("informacao = " + testCreate.getInformacao());
 
         // Teste de atualização de informações
-        testCreate.setInformacao("Teste de CRUD alterado");
-        json = gson.toJson(testCreate);
-        update(Strings.ID, Strings.IDTeste, json);
-        System.out.println("Informações alteradas");
+        Integer idUpdate = (int) (Math.random() * 5);
 
-        TestCrud testCollectionParecer = readParecer(Strings.ID, Strings.IDTeste);
-        TestCrud testCollectionRadoc = readRadoc(Strings.ID, Strings.IDTeste);
+        testeCrud[idUpdate].setInformacao("Teste de Crud alterado");
+        String jsonUpdate = gson.toJson(testeCrud[idUpdate]);
 
-        System.out.println("Informacoes recuperadas da collecion Parecer");
-        System.out.println("id = " + testCollectionParecer.getId());
-        System.out.println("informacao = " + testCollectionParecer.getInformacao());
+        update(Strings.ID,Integer.toString(idUpdate),jsonUpdate);
 
-        System.out.println("Informacoes recuperadas da collecion Radoc");
-        System.out.println("id = " + testCollectionRadoc.getId());
-        System.out.println("informacao = " + testCollectionRadoc.getInformacao());
+        // Teste leitura das informações uma a uma
+        for (int i = 0; i < json.size(); i++)
+        {
+            TestCrud testCollectionParecer = readParecer(Strings.ID, Integer.toString(i));
+            System.out.println("Collection Parecer, Id: " + testCollectionParecer.getId() + ", Informacao: " + testCollectionParecer.getInformacao());
+        }
 
-        delete(Strings.ID, Strings.IDTeste);
+        for (int i = 0; i < json.size(); i++)
+        {
+            TestCrud testCollectionRadoc = readRadoc(Strings.ID, Integer.toString(i));
+            System.out.println("Collection Radoc, Id: " + testCollectionRadoc.getId() + ", Informacao: " + testCollectionRadoc.getInformacao());
+        }
+
+        TestCrud[] testeCrudPareceAll = readParecerAll();
+        TestCrud[] testeCrudRadocAll = readRadocAll();
+
+        for (int i = 0; i < Strings.numeroMaximoTestes; i++)
+            System.out.println("Collection Parecer, Id: " + testeCrudPareceAll[i].getId() + ", Informacao: " + testeCrudPareceAll[i].getInformacao());
+
+        for (int i = 0; i < Strings.numeroMaximoTestes; i++)
+            System.out.println("Collection Radoc, Id: " + testeCrudRadocAll[i].getId() + ", Informacao: " + testeCrudRadocAll[i].getInformacao());
     }
 
     private static void create(String json)
@@ -80,6 +101,22 @@ public class TesteCRUD
         conexao.update(filtro, key, json, Strings.collectionRadoc);
     }
 
+    private static TestCrud[] readParecerAll()
+    {
+        Iterable<Document> parecerAllDocument = conexao.readAll(Strings.collectionParecer);
+        TestCrud testCrud[] = new TestCrud[Strings.numeroMaximoTestes];
+
+        int i = 0;
+        for (Document parecerDocument : parecerAllDocument)
+        {
+            String json = gson.toJson(parecerDocument);
+            testCrud[i] = gson.fromJson(json ,TestCrud.class);
+            i++;
+        }
+
+        return testCrud;
+    }
+
     private static TestCrud readParecer(String filtro, String key)
     {
         Document parecerDocument = conexao.read(filtro, key, Strings.collectionParecer);
@@ -87,9 +124,25 @@ public class TesteCRUD
         return parecerObjeto;
     }
 
+    private static TestCrud[] readRadocAll()
+    {
+        Iterable<Document> radocDocumentAll = conexao.readAll(Strings.collectionRadoc);
+        TestCrud testCrud[] = new TestCrud[Strings.numeroMaximoTestes];
+
+        int i = 0;
+        for (Document radocDocument : radocDocumentAll)
+        {
+            String json = gson.toJson(radocDocument);
+            testCrud[i] = gson.fromJson(json ,TestCrud.class);
+            i++;
+        }
+
+        return testCrud;
+    }
+
     private static TestCrud readRadoc(String filtro, String key)
     {
-        Document radocDocument = conexao.read(Strings.ID, Strings.IDTeste, Strings.collectionRadoc);
+        Document radocDocument = conexao.read(Strings.ID, key, Strings.collectionRadoc);
         TestCrud radocObjeto = gson.fromJson(radocDocument.toJson(), TestCrud.class);
         return radocObjeto;
     }

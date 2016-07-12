@@ -5,6 +5,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Iterator;
+
 import static com.mongodb.client.model.Filters.eq;
 
 /**
@@ -31,10 +33,17 @@ public class ConexaoBD
         Document create = Document.parse(json);
         collection.insertOne(create);
     }
+
     public Document read(String filter, String key, String collectionName)
     {
         MongoCollection<Document> collection = mongo.getCollection(collectionName);
         return collection.find(eq(filter,key)).first();
+    }
+
+    public Iterable<Document> readAll(String collectionName)
+    {
+        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+        return collection.find();
     }
 
     public void update(String filter, String key, String json, String collectionName)

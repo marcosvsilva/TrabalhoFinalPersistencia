@@ -31,11 +31,13 @@ public class ParecerRepositorioIMPL implements ParecerRepository
         {
             List<Nota> notas = parecer.getNotas();
 
+            /*
             for (int i = 0; i < notas.size(); i++)
             {
                 if nota.getItemOriginal()
 
             }
+            */
 
 
             notas.add(nota);
@@ -94,6 +96,9 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void persisteParecer(Parecer parecer)
     {
+        if (parecer.getId() == null || parecer.getId().equals(""))
+            throw new CampoExigidoNaoFornecido(Strings.ID);
+
         Parecer existeParecer = byId(parecer.getId());
 
         if (existeParecer == null)
@@ -160,6 +165,9 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public String persisteRadoc(Radoc radoc)
     {
+        if (radoc.getId() == null || radoc.getId().equals(""))
+            throw new CampoExigidoNaoFornecido(Strings.ID);
+
         Radoc existeRadoc = radocById(radoc.getId());
 
         if (existeRadoc == null)
@@ -169,7 +177,10 @@ public class ParecerRepositorioIMPL implements ParecerRepository
         }
         else { throw new IdentificadorExistente(radoc.getId()); }
 
-        return null;
+        Radoc verificaInsercao = radocById(radoc.getId());
+
+        if (verificaInsercao != null) { return verificaInsercao.getId(); }
+        else { return null; }
     }
 
     @Override
