@@ -32,7 +32,7 @@ public class TesteCRUD
 
     private static String informacao = "Teste de CRUD";                     //informações a serem armazandas
     private static String informacaoAlterada = "Teste de CRUD Alterado";    //informação a ser alterada
-    private static String collection = Strings.collectionParecer;           //collection onde será realizada os testes
+    private static String collection = Strings.collectionTipo;           //collection onde será realizada os testes
     private static Integer numeroObjetosTestes = 5;                          //numero máximo de objetos a ser instanciado para testes
 
 

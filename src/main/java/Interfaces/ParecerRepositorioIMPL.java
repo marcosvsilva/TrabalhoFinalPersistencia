@@ -30,15 +30,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository
         if (parecer != null)
         {
             List<Nota> notas = parecer.getNotas();
-
-            /*
-            for (int i = 0; i < notas.size(); i++)
-            {
-                if nota.getItemOriginal()
-
-            }
-            */
-
+            removeNota(id,nota.getItemOriginal());
 
             notas.add(nota);
 
