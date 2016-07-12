@@ -26,7 +26,7 @@ public class TesteAuxiliar
                 Strings.IDTeste,             // identificador de resolucao
                 radocs,                      // radocs
                 pontuacao,                   // pontuação
-                Strings.fundamentacaoTeste,  // fundamentacao
+                Strings.teste,               // fundamentacao
                 notas                        // notas
         );
 
@@ -35,35 +35,29 @@ public class TesteAuxiliar
 
     public ArrayList<String> createStrinsAleatorias()
     {
-        int quantidadePosicoes = (int) (Math.random() * 9) + 1; //define a quantidade de strings aleatoriamente
-
         ArrayList<String> stringsAleatorias = new ArrayList<>(); //criação do ArrayList
 
-        for (int i = 0; i < quantidadePosicoes; i++)
-            stringsAleatorias.add(UUID.randomUUID().toString()); //populando o ArrayList com strings aleatórias
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
+            stringsAleatorias.add(Strings.teste); //populando o ArrayList com strings aleatórias
 
         return stringsAleatorias;
     }
 
     public List<Pontuacao> createPontuacoesAleatorias()
     {
-        int quantidadePontuacao = (int) (Math.random() * 9) + 1; //define a quantidade de strings aleatoriamente
-
         List<Pontuacao> pontuacoes = new ArrayList<>(); //criação do ArrayList
 
-        for (int i = 0; i < quantidadePontuacao; i++)
-            pontuacoes.add(new Pontuacao(UUID.randomUUID().toString(),new Valor(UUID.randomUUID().toString())));
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
+            pontuacoes.add(new Pontuacao(Strings.teste,new Valor(Strings.teste))); //populando pontuações
 
         return pontuacoes;
     }
 
     public List<Nota> createNotasAleatorias()
     {
-        int quantidadePosicoes = (int) (Math.random() * 9) + 1; //define a quantidade de strings aleatoriamente
-
         ArrayList<Nota> notas = new ArrayList<>();
 
-        for (int i = 0; i < quantidadePosicoes; i++)
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
             notas.add(createNotaAleatoria());
 
         return notas;
@@ -74,7 +68,7 @@ public class TesteAuxiliar
         Relato relatoOrigem = createRelatoAleatorio();
         Relato relatoDestino = createRelatoAleatorio();
 
-        Nota nota = new Nota(relatoOrigem,relatoDestino,UUID.randomUUID().toString());
+        Nota nota = new Nota(relatoOrigem,relatoDestino,Strings.teste);
 
         return nota;
     }
@@ -83,8 +77,6 @@ public class TesteAuxiliar
     {
         Map<String,Valor> relato = new HashMap<>();
         relato.put(Strings.teste,new Valor(Strings.teste));
-        return new Relato(UUID.randomUUID().toString(),relato);
+        return new Relato(Strings.teste,relato);
     }
-
-
 }

@@ -1,7 +1,6 @@
 import Auxiliares.Strings;
 import Conexao.ConexaoBD;
 import Interfaces.ParecerRepositorioIMPL;
-import br.ufg.inf.es.saep.sandbox.dominio.Avaliavel;
 import br.ufg.inf.es.saep.sandbox.dominio.Nota;
 import br.ufg.inf.es.saep.sandbox.dominio.Parecer;
 import br.ufg.inf.es.saep.sandbox.dominio.ParecerRepository;
@@ -32,6 +31,12 @@ public class TesteParecer
     {
         Nota nota = auxiliar.createNotaAleatoria();
         parecerRepository.adicionaNota(Strings.IDTeste,nota);
-        parecerRepository.removeNota(Strings.IDTeste, nota.getItemOriginal());
+    }
+
+    @Test
+    public void removeNora()
+    {
+        Nota nota = auxiliar.createNotaAleatoria();
+        parecerRepository.removeNota(Strings.IDTeste,nota.getItemOriginal());
     }
 }

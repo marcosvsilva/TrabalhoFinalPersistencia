@@ -88,19 +88,6 @@ public class ConexaoBD
         Método que realiza atualização de um objeto do banco de dados.
         Recebe como parâmetro um filter e uma key, para que seja localizado o objeto de interesse que será atualizado.
         Exemplo "id(filtro) = 1(key)".
-        Recebe também um documento para substituir o arquivo existente e recebe ainda,
-        a collection em que fará a atualização.
-    */
-    public void updateByFilter(String filter, String key, Document filterDocument, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
-        collection.updateOne(eq(filter,key),filterDocument);
-    }
-
-    /*
-        Método que realiza atualização de um objeto do banco de dados.
-        Recebe como parâmetro um filter e uma key, para que seja localizado o objeto de interesse que será atualizado.
-        Exemplo "id(filtro) = 1(key)".
         Também recebe uma string json que substituíra o objeto que satisfaz o critério de filtro e recebe ainda,
         a collection em que fará a atualização.
     */

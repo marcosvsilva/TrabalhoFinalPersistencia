@@ -57,10 +57,37 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void removeNota(String id, Avaliavel avaliavel)
     {
-        String json = gson.toJson(avaliavel);
-        Document document = new Document("notas", new Document("original", Document.parse(json)));
-        Document filter = new Document("$pull", document);
-        conexao.updateByFilter(Strings.ID, id, filter, Strings.collectionParecer);
+
+        Parecer parecer = byId(id);
+
+        if (parecer != null)
+        {
+            String avaliavelJson = gson.toJson(avaliavel);
+
+            List<Nota> notas = parecer.getNotas();
+
+            for (int i = 0; i < notas.size(); i++)
+            {
+                String avaliavelTest = gson.toJson(notas.get(i).getItemOriginal());
+                if (avaliavelJson.equals(avaliavelTest))
+                {
+                    notas.remove(i);
+                    break;
+                }
+            }
+
+            Parecer parecerUpdate = new Parecer(
+                    parecer.getId(),
+                    parecer.getResolucao(),
+                    parecer.getRadocs(),
+                    parecer.getPontuacoes(),
+                    parecer.getFundamentacao(),
+                    notas
+            );
+
+            String parecerJson = gson.toJson(parecerUpdate);
+            conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
+        } else { throw new IdentificadorDesconhecido(id); }
     }
 
     @Override
