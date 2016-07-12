@@ -1,8 +1,10 @@
 package Interfaces;
 
+import Auxiliares.Deserializacao;
 import Conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bson.Document;
 import Auxiliares.Strings;
 
@@ -19,6 +21,9 @@ public class ParecerRepositorioIMPL implements ParecerRepository
 
     public ParecerRepositorioIMPL(ConexaoBD conexao)
     {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
+        gson = gsonBuilder.create();
         this.conexao = conexao;
     }
 
@@ -52,37 +57,10 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     @Override
     public void removeNota(String id, Avaliavel avaliavel)
     {
-        Parecer parecer = byId(id);
-
-        if (parecer != null)
-        {
-            String avaliavelJson = gson.toJson(avaliavel);
-
-            List<Nota> notas = parecer.getNotas();
-
-            for (int i = 0; i < notas.size(); i++)
-            {
-                String notasJson = gson.toJson(notas.get(i));
-                if (avaliavelJson.equals(notasJson))
-                {
-                    notas.remove(i);
-                    break;
-                }
-            }
-
-            Parecer parecerUpdate = new Parecer(
-                    parecer.getId(),
-                    parecer.getResolucao(),
-                    parecer.getRadocs(),
-                    parecer.getPontuacoes(),
-                    parecer.getFundamentacao(),
-                    notas
-            );
-
-            String parecerJson = gson.toJson(parecerUpdate);
-            conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
-        }
-        else { throw new IdentificadorDesconhecido(id); }
+        String json = gson.toJson(avaliavel);
+        Document document = new Document("notas", new Document("original", Document.parse(json)));
+        Document filter = new Document("$pull", document);
+        conexao.updateByFilter(Strings.ID, id, filter, Strings.collectionParecer);
     }
 
     @Override

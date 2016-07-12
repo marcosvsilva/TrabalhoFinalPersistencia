@@ -1,9 +1,11 @@
 package Interfaces;
 
+import Auxiliares.Deserializacao;
 import Auxiliares.Strings;
 import Conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -18,7 +20,13 @@ public class ResolucaoRepositorioIMPL implements ResolucaoRepository
     private static Gson gson;
     private ConexaoBD conexao;
 
-    public ResolucaoRepositorioIMPL(ConexaoBD conexao) { this.conexao = conexao; }
+    public ResolucaoRepositorioIMPL(ConexaoBD conexao)
+    {
+        this.conexao = conexao;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
+        gson = gsonBuilder.create();
+    }
 
     @Override
     public Resolucao byId(String id)

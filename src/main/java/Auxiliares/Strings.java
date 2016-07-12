@@ -26,4 +26,10 @@ public class Strings
     public static final String filterRegra = "regras.tipoRelato";
 
     public static final String filterNome = "nome";
+
+    public static final String IDTeste = "0001";
+
+    public static final String fundamentacaoTeste = "Teste de fundamentação";
+
+    public static final String teste = "teste";
 }
