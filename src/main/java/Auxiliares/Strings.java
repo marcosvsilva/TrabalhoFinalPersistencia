@@ -13,7 +13,13 @@ public class Strings
 
     public static final String collectionRadoc = "radoc";
 
+    public static final String collectionTipo = "tipo";
+
+    public static final String collectionTipo = "resolucao";
+
     public static final String ID = "id";
 
     public static final String IDTeste = "1";
+
+    public static final String filterRadoc = "radocs";
 }

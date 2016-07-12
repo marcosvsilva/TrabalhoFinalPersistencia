@@ -23,13 +23,21 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     }
 
     @Override
-    public void adicionaNota(String s, Nota nota)
+    public void adicionaNota(String id, Nota nota)
     {
-        Parecer parecer = byId(s);
+        Parecer parecer = byId(id);
 
         if (parecer != null)
         {
             List<Nota> notas = parecer.getNotas();
+
+            for (int i = 0; i < notas.size(); i++)
+            {
+                if nota.getItemOriginal()
+
+            }
+
+
             notas.add(nota);
 
             Parecer parecerUpdate = new Parecer(
@@ -42,17 +50,15 @@ public class ParecerRepositorioIMPL implements ParecerRepository
             );
 
             String parecerJson = gson.toJson(parecerUpdate);
-            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
-        }  else
-        {
-            throw new IdentificadorDesconhecido(s);
+            conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
         }
+        else { throw new IdentificadorDesconhecido(id); }
     }
 
     @Override
-    public void removeNota(String s, Avaliavel avaliavel)
+    public void removeNota(String id, Avaliavel avaliavel)
     {
-        Parecer parecer = byId(s);
+        Parecer parecer = byId(id);
 
         if (parecer != null)
         {
@@ -80,11 +86,9 @@ public class ParecerRepositorioIMPL implements ParecerRepository
             );
 
             String parecerJson = gson.toJson(parecerUpdate);
-            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
-        }  else
-        {
-            throw new IdentificadorDesconhecido(s);
+            conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
         }
+        else { throw new IdentificadorDesconhecido(id); }
     }
 
     @Override
@@ -97,12 +101,13 @@ public class ParecerRepositorioIMPL implements ParecerRepository
             String parecerJson = gson.toJson(parecer);
             conexao.create(parecerJson, Strings.collectionParecer);
         }
+        else { throw new IdentificadorExistente(parecer.getId()); }
     }
 
     @Override
-    public void atualizaFundamentacao(String s, String s1)
+    public void atualizaFundamentacao(String id, String fundamentacoes)
     {
-        Parecer parecer = byId(s);
+        Parecer parecer = byId(id);
 
         if (parecer != null)
         {
@@ -111,20 +116,21 @@ public class ParecerRepositorioIMPL implements ParecerRepository
                     parecer.getResolucao(),
                     parecer.getRadocs(),
                     parecer.getPontuacoes(),
-                    s1,
+                    fundamentacoes,
                     parecer.getNotas()
             );
 
 
             String parecerJson = gson.toJson(parecerUpdate);
-            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
+            conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
         }
+        else { throw new IdentificadorDesconhecido(id); }
     }
 
     @Override
-    public Parecer byId(String s)
+    public Parecer byId(String id)
     {
-        Document parecerDocument = conexao.read(Strings.ID, s, Strings.collectionParecer);
+        Document parecerDocument = conexao.read(Strings.ID, id, Strings.collectionParecer);
 
         if (parecerDocument == null)
             return null;
@@ -134,15 +140,15 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     }
 
     @Override
-    public void removeParecer(String s)
+    public void removeParecer(String id)
     {
-        conexao.delete(Strings.ID, s, Strings.collectionParecer);
+        conexao.delete(Strings.ID, id, Strings.collectionParecer);
     }
 
     @Override
-    public Radoc radocById(String s)
+    public Radoc radocById(String id)
     {
-        Document radocDocument = conexao.read(Strings.ID, s, Strings.collectionRadoc);
+        Document radocDocument = conexao.read(Strings.ID, id, Strings.collectionRadoc);
 
         if (radocDocument == null)
             return null;
@@ -161,13 +167,17 @@ public class ParecerRepositorioIMPL implements ParecerRepository
             String radocJson = gson.toJson(radoc);
             conexao.create(radocJson, Strings.collectionRadoc);
         }
+        else { throw new IdentificadorExistente(radoc.getId()); }
 
         return null;
     }
 
     @Override
-    public void removeRadoc(String s)
+    public void removeRadoc(String id)
     {
-        conexao.delete(Strings.ID, s, Strings.collectionRadoc);
+        Document radocReferenciado = conexao.read(Strings.filterRadoc, id, Strings.collectionParecer);
+
+        if (radocReferenciado != null) { conexao.delete(Strings.ID, id, Strings.collectionRadoc); }
+        else { throw new ExisteParecerReferenciandoRadoc(id); }
     }
 }
