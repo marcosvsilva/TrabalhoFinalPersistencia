@@ -47,7 +47,6 @@ public class ParecerRepositorioIMPL implements ParecerRepository
         {
             throw new IdentificadorDesconhecido(s);
         }
-
     }
 
     @Override
@@ -55,6 +54,37 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     {
         Parecer parecer = byId(s);
 
+        if (parecer != null)
+        {
+            String avaliavelJson = gson.toJson(avaliavel);
+
+            List<Nota> notas = parecer.getNotas();
+
+            for (int i = 0; i < notas.size(); i++)
+            {
+                String notasJson = gson.toJson(notas.get(i));
+                if (avaliavelJson.equals(notasJson))
+                {
+                    notas.remove(i);
+                    break;
+                }
+            }
+
+            Parecer parecerUpdate = new Parecer(
+                    parecer.getId(),
+                    parecer.getResolucao(),
+                    parecer.getRadocs(),
+                    parecer.getPontuacoes(),
+                    parecer.getFundamentacao(),
+                    notas
+            );
+
+            String parecerJson = gson.toJson(parecerUpdate);
+            conexao.update(Strings.ID,s,parecerJson,Strings.collectionParecer);
+        }  else
+        {
+            throw new IdentificadorDesconhecido(s);
+        }
     }
 
     @Override

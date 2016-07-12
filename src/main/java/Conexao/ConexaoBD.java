@@ -42,8 +42,6 @@ public class ConexaoBD
         MongoCollection<Document> collection = mongo.getCollection(collectionName);
         Document update = Document.parse(json);
         collection.replaceOne(eq(filter,key),update);
-
-        collection.findOneAndUpdate()
     }
 
     public void delete(String filter, String key, String collectionName)
