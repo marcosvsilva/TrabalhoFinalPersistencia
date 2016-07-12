@@ -71,12 +71,14 @@ public class InstanciaConexao
         {
             try
             {
-                String dataBase = getProperties();              //busca do nome do banco
-                mongoDB = mongoClient.getDatabase(dataBase);    //criação da conexão
-                createCollections(Strings.collectionParecer);   //cria a collection parecer
-                createCollections(Strings.collectionRadoc);     //cria a collection radoc
-            } catch(IOException e) {System.out.println(e);}     //caso houver falhas, imprimi a falha.
+                String dataBase = getProperties();                  //busca do nome do banco
+                mongoDB = mongoClient.getDatabase(dataBase);        //criação da conexão
+                createCollections(Strings.collectionParecer);       //cria a collection parecer
+                createCollections(Strings.collectionRadoc);         //cria a collection radoc
+                createCollections(Strings.collectionResolucao);     //cria a collection resolucao
+                createCollections(Strings.collectionTipo);          //cria a collection tipo
+            } catch(IOException e) {System.out.println(e);}         //caso houver falhas, imprimi a falha.
         }
-        return mongoDB;                                         //retorno da conexão se já criada.
+        return mongoDB;                                             //retorno da conexão se já criada.
     }
 }

@@ -1,7 +1,7 @@
 package Auxiliares;
 
 /**
- * Created by marco_000 on 09/07/2016.
+ * Created by Marcos on 09/07/2016.
  */
 public class Strings
 {
@@ -19,7 +19,11 @@ public class Strings
 
     public static final String ID = "id";
 
-    public static final Integer numeroMaximoTestes = 5;
+    public static final Integer numeroObjetosTestes = 5;
 
     public static final String filterRadoc = "radocs";
+
+    public static final String filterRegra = "regras.tipoRelato";
+
+    public static final String filterNome = "nome";
 }

@@ -9,7 +9,7 @@ import Auxiliares.Strings;
 import java.util.List;
 
 /**
- * Created by marco_000 on 05/07/2016.
+ * Created by Marcos on 05/07/2016.
  */
 public class ParecerRepositorioIMPL implements ParecerRepository
 {
