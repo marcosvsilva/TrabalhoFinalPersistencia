@@ -2,6 +2,7 @@
 .settings
 bin/
 target/
+test/java/unitarios/
 .classpath
 .project
 *.iml

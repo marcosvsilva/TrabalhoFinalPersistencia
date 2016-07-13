@@ -1,4 +1,6 @@
-import Conexao.InstanciaConexao;
+package unitarios;
+
+import br.ufg.inf.persistencia.saep.Conexao.InstanciaConexao;
 import com.mongodb.client.MongoDatabase;
 
 /*

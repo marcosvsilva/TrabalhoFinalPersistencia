@@ -1,8 +1,8 @@
-package Interfaces;
+package br.ufg.inf.persistencia.saep.Interfaces;
 
-import Auxiliares.Deserializacao;
-import Auxiliares.Strings;
-import Conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.Auxiliares.Deserializacao;
+import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.Conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,5 +1,7 @@
-import Auxiliares.Strings;
-import Conexao.ConexaoBD;
+package unitarios;
+
+import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.Conexao.ConexaoBD;
 import com.google.gson.Gson;
 import org.bson.Document;
 
@@ -69,15 +71,15 @@ public class TesteCRUD
     {
 
         // Criação dos objetos a serem armazenados no banco
-        TestCrud[] testeCrud = new TestCrud[Strings.numeroObjetosTestes];
+        TestCrud[] testeCrud = new TestCrud[Strings.quantidadeMaximaTeste];
 
-        for (int i = 0; i < Strings.numeroObjetosTestes; i++)
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
             testeCrud[i] = new TestCrud(Integer.toString(i), informacao);
 
         // Teste de inserção dos objetos
         ArrayList<String> json = new ArrayList<>();
 
-        for (int i = 0; i < Strings.numeroObjetosTestes; i++)
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
             json.add(gson.toJson(testeCrud[i]));
 
         for (int i = 0; i < json.size(); i++)
@@ -113,7 +115,7 @@ public class TesteCRUD
             System.out.println("Collection " + collection + ", leitura dos elementos que contêm Teste de Crud alterado, Id: " + testeCrudPareceNomeAll.get(i).getId() + ", Informacao: " + testeCrudPareceNomeAll.get(i).getInformacao());
 
         // Deleção de todas informações que constam no banco de dados
-        for (int i = 0; i < Strings.numeroObjetosTestes; i++)
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
             delete(Strings.ID,Integer.toString(i));
     }
 

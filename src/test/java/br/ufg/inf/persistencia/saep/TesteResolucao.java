@@ -1,3 +1,5 @@
+package br.ufg.inf.persistencia.saep;
+
 import br.ufg.inf.es.saep.sandbox.dominio.ParecerRepository;
 
 /**

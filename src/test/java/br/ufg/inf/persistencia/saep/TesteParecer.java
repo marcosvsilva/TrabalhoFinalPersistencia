@@ -1,6 +1,8 @@
-import Auxiliares.Strings;
-import Conexao.ConexaoBD;
-import Interfaces.ParecerRepositorioIMPL;
+package br.ufg.inf.persistencia.saep;
+
+import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.Conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.Interfaces.ParecerRepositorioIMPL;
 import br.ufg.inf.es.saep.sandbox.dominio.Nota;
 import br.ufg.inf.es.saep.sandbox.dominio.Parecer;
 import br.ufg.inf.es.saep.sandbox.dominio.ParecerRepository;
@@ -22,21 +24,25 @@ public class TesteParecer
     @Test
     public void adicionaParecer()
     {
-        Parecer parecer = auxiliar.createParecerAleatorio();
+        Parecer parecer = auxiliar.createParecer();
         parecerRepository.persisteParecer(parecer);
     }
 
     @Test
     public void adicionaNota()
     {
-        Nota nota = auxiliar.createNotaAleatoria();
+        Nota nota = auxiliar.createNota();
         parecerRepository.adicionaNota(Strings.IDTeste,nota);
     }
 
     @Test
-    public void removeNora()
+    public void removeNota()
     {
-        Nota nota = auxiliar.createNotaAleatoria();
+        Nota nota = auxiliar.createNota();
         parecerRepository.removeNota(Strings.IDTeste,nota.getItemOriginal());
     }
+
+
+
+
 }
