@@ -1,6 +1,6 @@
 package br.ufg.inf.persistencia.saep;
 
-import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import java.util.*;
 

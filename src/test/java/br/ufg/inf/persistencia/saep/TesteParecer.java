@@ -1,8 +1,8 @@
 package br.ufg.inf.persistencia.saep;
 
-import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
-import br.ufg.inf.persistencia.saep.Conexao.ConexaoBD;
-import br.ufg.inf.persistencia.saep.Interfaces.ParecerRepositorioIMPL;
+import br.ufg.inf.persistencia.saep.auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.interfaces.ParecerRepositorioIMPL;
 import br.ufg.inf.es.saep.sandbox.dominio.Nota;
 import br.ufg.inf.es.saep.sandbox.dominio.Parecer;
 import br.ufg.inf.es.saep.sandbox.dominio.ParecerRepository;
