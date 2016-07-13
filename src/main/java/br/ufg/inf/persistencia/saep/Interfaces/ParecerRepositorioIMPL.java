@@ -1,26 +1,24 @@
-package br.ufg.inf.persistencia.saep.Interfaces;
+package br.ufg.inf.persistencia.saep.interfaces;
 
-import br.ufg.inf.persistencia.saep.Auxiliares.Deserializacao;
-import br.ufg.inf.persistencia.saep.Conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.auxiliares.Deserializacao;
+import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bson.Document;
-import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 
 import java.util.List;
 
 /**
- * Created by Marcos on 05/07/2016.
+ * Implmentação da interface do repositório Parecer.
  */
-public class ParecerRepositorioIMPL implements ParecerRepository
-{
+public class ParecerRepositorioIMPL implements ParecerRepository {
 
     private static Gson gson;
     private ConexaoBD conexao;
 
-    public ParecerRepositorioIMPL(ConexaoBD conexao)
-    {
+    public ParecerRepositorioIMPL(ConexaoBD conexao) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
         gson = gsonBuilder.create();
@@ -28,12 +26,10 @@ public class ParecerRepositorioIMPL implements ParecerRepository
     }
 
     @Override
-    public void adicionaNota(String id, Nota nota)
-    {
+    public void adicionaNota(String id, Nota nota) {
         Parecer parecer = byId(id);
 
-        if (parecer != null)
-        {
+        if (parecer != null) {
             List<Nota> notas = parecer.getNotas();
             removeNota(id,nota.getItemOriginal());
 
@@ -51,26 +47,25 @@ public class ParecerRepositorioIMPL implements ParecerRepository
             String parecerJson = gson.toJson(parecerUpdate);
             conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
         }
-        else { throw new IdentificadorDesconhecido(id); }
+        else {
+            throw new IdentificadorDesconhecido(id);
+        }
     }
 
     @Override
-    public void removeNota(String id, Avaliavel avaliavel)
-    {
-
+    public void removeNota(String id, Avaliavel avaliavel) {
         Parecer parecer = byId(id);
 
-        if (parecer != null)
-        {
+        if (parecer != null) {
             String avaliavelJson = gson.toJson(avaliavel);
 
             List<Nota> notas = parecer.getNotas();
 
-            for (int i = 0; i < notas.size(); i++)
-            {
-                String avaliavelTest = gson.toJson(notas.get(i).getItemOriginal());
-                if (avaliavelJson.equals(avaliavelTest))
-                {
+            for (int i = 0; i < notas.size(); i++) {
+                String avaliavelTest =
+                        gson.toJson(notas.get(i).getItemOriginal());
+
+                if (avaliavelJson.equals(avaliavelTest)) {
                     notas.remove(i);
                     break;
                 }
@@ -87,32 +82,32 @@ public class ParecerRepositorioIMPL implements ParecerRepository
 
             String parecerJson = gson.toJson(parecerUpdate);
             conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
-        } else { throw new IdentificadorDesconhecido(id); }
+        } else {
+            throw new IdentificadorDesconhecido(id);
+        }
     }
 
     @Override
-    public void persisteParecer(Parecer parecer)
-    {
-        if (parecer.getId() == null || parecer.getId().equals(""))
+    public void persisteParecer(Parecer parecer) {
+        if (parecer.getId() == null || parecer.getId().equals("")){
             throw new CampoExigidoNaoFornecido(Strings.ID);
+        }
 
         Parecer existeParecer = byId(parecer.getId());
 
-        if (existeParecer == null)
-        {
+        if (existeParecer == null) {
             String parecerJson = gson.toJson(parecer);
             conexao.create(parecerJson, Strings.collectionParecer);
+        } else {
+            throw new IdentificadorExistente(parecer.getId());
         }
-        else { throw new IdentificadorExistente(parecer.getId()); }
     }
 
     @Override
-    public void atualizaFundamentacao(String id, String fundamentacoes)
-    {
+    public void atualizaFundamentacao(String id, String fundamentacoes) {
         Parecer parecer = byId(id);
 
-        if (parecer != null)
-        {
+        if (parecer != null) {
             Parecer parecerUpdate = new Parecer(
                     parecer.getId(),
                     parecer.getResolucao(),
@@ -122,70 +117,80 @@ public class ParecerRepositorioIMPL implements ParecerRepository
                     parecer.getNotas()
             );
 
-
             String parecerJson = gson.toJson(parecerUpdate);
             conexao.update(Strings.ID,id,parecerJson,Strings.collectionParecer);
+        } else {
+            throw new IdentificadorDesconhecido(id);
         }
-        else { throw new IdentificadorDesconhecido(id); }
     }
 
     @Override
-    public Parecer byId(String id)
-    {
-        Document parecerDocument = conexao.read(Strings.ID, id, Strings.collectionParecer);
+    public Parecer byId(String id) {
+        Document parecerDocument =
+                conexao.read(Strings.ID, id, Strings.collectionParecer);
 
-        if (parecerDocument == null)
+        if (parecerDocument == null) {
             return null;
+        }
 
         String parecerJson = gson.toJson(parecerDocument);
+
         return gson.fromJson(parecerJson,Parecer.class);
     }
 
     @Override
-    public void removeParecer(String id)
-    {
+    public void removeParecer(String id) {
         conexao.delete(Strings.ID, id, Strings.collectionParecer);
     }
 
     @Override
-    public Radoc radocById(String id)
-    {
-        Document radocDocument = conexao.read(Strings.ID, id, Strings.collectionRadoc);
+    public Radoc radocById(String id) {
+        Document radocDocument =
+                conexao.read(Strings.ID, id, Strings.collectionRadoc);
 
-        if (radocDocument == null)
+        if (radocDocument == null) {
             return null;
+        }
 
         String radocJson = gson.toJson(radocDocument);
+
         return gson.fromJson(radocJson,Radoc.class);
     }
 
     @Override
-    public String persisteRadoc(Radoc radoc)
-    {
-        if (radoc.getId() == null || radoc.getId().equals(""))
+    public String persisteRadoc(Radoc radoc) {
+        if (radoc.getId() == null || radoc.getId().equals("")) {
             throw new CampoExigidoNaoFornecido(Strings.ID);
+        }
 
         Radoc existeRadoc = radocById(radoc.getId());
 
-        if (existeRadoc == null)
-        {
+        if (existeRadoc == null) {
             String radocJson = gson.toJson(radoc);
             conexao.create(radocJson, Strings.collectionRadoc);
+        } else {
+            throw new IdentificadorExistente(radoc.getId());
         }
-        else { throw new IdentificadorExistente(radoc.getId()); }
 
         Radoc verificaInsercao = radocById(radoc.getId());
 
-        if (verificaInsercao != null) { return verificaInsercao.getId(); }
-        else { return null; }
+        if (verificaInsercao != null) {
+            return verificaInsercao.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void removeRadoc(String id)
-    {
-        Document radocReferenciado = conexao.read(Strings.filterRadoc, id, Strings.collectionParecer);
+    public void removeRadoc(String id) {
+        Document radocReferenciado =
+                conexao.read(Strings.filterRadoc,
+                        id, Strings.collectionParecer);
 
-        if (radocReferenciado != null) { conexao.delete(Strings.ID, id, Strings.collectionRadoc); }
-        else { throw new ExisteParecerReferenciandoRadoc(id); }
+        if (radocReferenciado != null) {
+            conexao.delete(Strings.ID, id, Strings.collectionRadoc);
+        } else {
+            throw new ExisteParecerReferenciandoRadoc(id);
+        }
     }
 }

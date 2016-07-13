@@ -1,19 +1,20 @@
-package br.ufg.inf.persistencia.saep.Auxiliares;
+package br.ufg.inf.persistencia.saep.auxiliares;
 
 /**
  * Classe auxiliar que contêm as strings utilizadas na aplicação.
  *
  * <p>Contêm todas strings fixas que são utilizadas pela aplicação.
  */
-public class Strings
-{
+public class Strings {
+
     /**
      * Endereço do arquivo de configuração.
      *
      * <p>Endereço do arquivo de configuração que contêm o
      * nome do banco de dados a ser utilizado na aplicação.
      */
-    public static final String enderecoConfiguracao = "./Configuracao/config.properties";
+    public static final String enderecoConfiguracao =
+            "./Configuracao/config.properties";
 
     /**
      * Tag do banco de dados no arquivo de configuração.

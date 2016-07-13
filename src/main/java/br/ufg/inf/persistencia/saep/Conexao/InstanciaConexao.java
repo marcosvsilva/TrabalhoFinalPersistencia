@@ -1,6 +1,6 @@
-package br.ufg.inf.persistencia.saep.Conexao;
+package br.ufg.inf.persistencia.saep.conexao;
 
-import br.ufg.inf.persistencia.saep.Auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -17,8 +17,7 @@ import java.io.FileInputStream;
  * fazendo somente uma conexão com o banco de
  * dados para toda aplicação.
  */
-public class InstanciaConexao
-{
+public class InstanciaConexao {
     /**
      * Cliente do banco de dados.
      */
@@ -36,13 +35,16 @@ public class InstanciaConexao
      * a ser utilizado pela aplicação.
      *
      * @return nome do banco de dados a ser utilizado.
-     * @throws IOException casso ocorra um erro de leitura do arquivo de configuração.
+     * @throws IOException caso ocorra um erro de leitura do arquivo.
      */
-    private static String getProperties() throws IOException
-    {
+    private static String getProperties() throws IOException {
         Properties properties = new Properties();
-        FileInputStream file = new FileInputStream(Strings.enderecoConfiguracao);
+
+        FileInputStream file = new
+                FileInputStream(Strings.enderecoConfiguracao);
+
         properties.load(file);
+
         return properties.getProperty(Strings.tagDataBase);
     }
 
@@ -55,11 +57,12 @@ public class InstanciaConexao
      * @param collectionName nome da collection.
      * @throws IOException caso ocorra um erro de leitura ou criação.
      */
-    private static void createCollections(String collectionName) throws IOException
-    {
-        MongoCollection<Document> testaExistencia = mongoDB.getCollection(collectionName);
-        if (testaExistencia.find().first() == null)
-        {
+    private static void createCollections(String collectionName)
+            throws IOException {
+        MongoCollection<Document> testaExistencia =
+                mongoDB.getCollection(collectionName);
+
+        if (testaExistencia.find().first() == null) {
             mongoDB.getCollection(collectionName).drop();
             mongoDB.createCollection(collectionName);
         }
@@ -73,8 +76,7 @@ public class InstanciaConexao
      * @param dataBase dataBase nome do banco de dados a ser criada a conexão.
      * @return conexão com o banco de dados.
      */
-    private static synchronized MongoDatabase createConnectio(String dataBase)
-    {
+    private static synchronized MongoDatabase createConnectio(String dataBase) {
         return mongoClient.getDatabase(dataBase);
     }
 
@@ -86,23 +88,20 @@ public class InstanciaConexao
      *
      * @return conexão com o banco de dados.
      */
-    public static MongoDatabase getConnection()
-    {
-        if (mongoDB == null)
-        {
-            try
-            {
-                String dataBase = getProperties();                  //busca do nome do banco
-                mongoDB = createConnectio(dataBase);                //criação uma conexão
-                createCollections(Strings.collectionParecer);       //cria a collection parecer
-                createCollections(Strings.collectionRadoc);         //cria a collection radoc
-                createCollections(Strings.collectionResolucao);     //cria a collection resolucao
-                createCollections(Strings.collectionTipo);          //cria a collection tipo
-            } catch(IOException e)
-            {
+    public static MongoDatabase getConnection() {
+        if (mongoDB == null) {
+            try {
+                String dataBase = getProperties();
+                mongoDB = createConnectio(dataBase);
+                createCollections(Strings.collectionParecer);
+                createCollections(Strings.collectionRadoc);
+                createCollections(Strings.collectionResolucao);
+                createCollections(Strings.collectionTipo);
+            } catch(IOException e) {
                 System.out.println(e);
             }
         }
-        return mongoDB;                                             //retorno da conexão
+
+        return mongoDB;
     }
 }

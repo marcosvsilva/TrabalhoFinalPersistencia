@@ -1,4 +1,4 @@
-package br.ufg.inf.persistencia.saep.Conexao;
+package br.ufg.inf.persistencia.saep.conexao;
 
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
@@ -12,18 +12,18 @@ import static com.mongodb.client.model.Filters.eq;
  *
  * <p>Estes métodos serão os meios de acesso a informações nos bancos de daos.
 
- * <p>Para realizar qualquer operação no banco de dados, estes, serão utilizados.
+ * <p>Para realizar qualquer operação no banco de dados, estes,
+ * serão utilizados.
  */
-public class ConexaoBD
-{
+public class ConexaoBD {
+
     private Gson gson = new Gson();
     private MongoDatabase mongo;
 
     /**
      * Instância uma nova conexão com o banco de dados.
      */
-    public ConexaoBD()
-    {
+    public ConexaoBD() {
         this.mongo = InstanciaConexao.getConnection();
     }
 
@@ -33,11 +33,13 @@ public class ConexaoBD
      * <p>Persiste um documento no banco de dados.
      *
      * @param json a ser persistida no banco.
-     * @param collectionName a collection em que fará a persistência dos objetos.
+     * @param collectionName a collection em que fará a persistência dos
+     *                       documentos.
      */
-    public void create(String json, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public void create(String json, String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         Document create = Document.parse(json);
         collection.insertOne(create);
     }
@@ -52,9 +54,10 @@ public class ConexaoBD
      * @param collectionName collection que fará a busca.
      * @return primeiro documento que satisfaz o filtro.
      */
-    public Document read(String filter, String key, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public Document read(String filter, String key, String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         return collection.find(eq(filter,key)).first();
     }
 
@@ -66,9 +69,10 @@ public class ConexaoBD
      * @param collectionName collection que fará a leitura.
      * @return iterador de documentos.
      */
-    public Iterable<Document> readAll(String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public Iterable<Document> readAll(String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         return collection.find();
     }
 
@@ -77,17 +81,20 @@ public class ConexaoBD
      *
      * <p>Realiza a busca e retorna todos documentos que satisfazem o filtro.
      *
-     * <p>A diferença entre read e readAllByFilter é que read torna somente um documento, enquanto readAllByFilter
-     * torna um ou mais documentos. Também o filtro do método read e montado na conexão, enquanto o filtro do método
-     * readAllByFilter é montado antes da função ser chamada.
+     * <p>A diferença entre read e readAllByFilter é que read torna somente
+     * um documento, enquanto readAllByFilter torna um ou mais documentos.
+     * Também o filtro do método read e montado na conexão, enquanto o filtro
+     * do método readAllByFilter é montado antes da função ser chamada.
      *
      * @param filter documento que será utilizado como query filtro.
      * @param collectionName collection em que será realizada a leitura.
      * @return iterador de documentos.
      */
-    public Iterable<Document> readAllByFilter(Document filter, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public Iterable<Document> readAllByFilter(Document filter,
+                                              String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         return collection.find(filter);
     }
 
@@ -101,9 +108,11 @@ public class ConexaoBD
      * @param json que substituirá o documento atual.
      * @param collectionName collection que fará a busca.
      */
-    public void update(String filter, String key, String json, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public void update(String filter, String key, String json,
+                       String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         Document update = Document.parse(json);
         collection.replaceOne(eq(filter,key),update);
     }
@@ -117,10 +126,10 @@ public class ConexaoBD
      * @param key chave que será utilizada para filtrar.
      * @param collectionName collection que fará a busca.
      */
-    public void delete(String filter, String key, String collectionName)
-    {
-        MongoCollection<Document> collection = mongo.getCollection(collectionName);
+    public void delete(String filter, String key, String collectionName) {
+        MongoCollection<Document> collection =
+                mongo.getCollection(collectionName);
+
         collection.deleteOne(eq(filter,key));
     }
-
 }
