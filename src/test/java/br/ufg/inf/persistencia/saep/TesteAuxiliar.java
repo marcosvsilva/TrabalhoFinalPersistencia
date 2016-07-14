@@ -2,6 +2,8 @@ package br.ufg.inf.persistencia.saep;
 
 import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
+import org.junit.Test;
+
 import java.util.*;
 
 /**
@@ -39,7 +41,7 @@ public class TesteAuxiliar
 
     public Radoc createRadoc(){
         Radoc radoc = new Radoc(
-                Strings.IDTeste,
+                Strings.teste,
                 Strings.anoBaseTestRadoc,
                 createRelatos()
         );

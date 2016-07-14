@@ -8,6 +8,9 @@ import com.google.gson.GsonBuilder;
 import org.bson.Document;
 import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 
+import javax.print.Doc;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -183,11 +186,12 @@ public class ParecerRepositorioIMPL implements ParecerRepository {
 
     @Override
     public void removeRadoc(String id) {
-        Document radocReferenciado =
-                conexao.read(Strings.filterRadoc,
-                        id, Strings.collectionParecer);
+        Document filter = new Document(Strings.filterRadoc,id);
 
-        if (radocReferenciado != null) {
+        Document radocReferenciado =
+                conexao.read(Strings.filterRadoc, id, Strings.collectionParecer);
+
+        if (radocReferenciado == null) {
             conexao.delete(Strings.ID, id, Strings.collectionRadoc);
         } else {
             throw new ExisteParecerReferenciandoRadoc(id);

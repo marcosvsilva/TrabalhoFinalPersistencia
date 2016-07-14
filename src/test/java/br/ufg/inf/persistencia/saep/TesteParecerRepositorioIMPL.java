@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * Testes da implementação do repositório Parecer.
  */
-public class TesteParecer {
+public class TesteParecerRepositorioIMPL {
 
     private static ParecerRepository parecerRepository;
     private static ConexaoBD conexao = new ConexaoBD();
@@ -55,7 +55,8 @@ public class TesteParecer {
         String parecerGravadoByConexaoJsonTeste =
                 gson.toJson(parecerGravadoByConexao);
 
-        Assert.assertEquals(parecerGravadoByIDJson,parecerGravadoByConexaoJsonTeste);
+        Assert.assertEquals(parecerGravadoByIDJson,
+                parecerGravadoByConexaoJsonTeste);
     }
 
     @Test
@@ -151,6 +152,32 @@ public class TesteParecer {
                 parecerAposAtualizacao.getFundamentacao());
     }
 
+    @Test (expected = IdentificadorDesconhecido.class)
+    public void atualizaFundamentacaoExecaoIdentificadorDesconhecido() {
+        String fundamentacao = Strings.teste;
+        String idParecer = "";
+        parecerRepository.atualizaFundamentacao(idParecer,fundamentacao);
+    }
+
+    @Test
+    public void radocByID() {
+        Radoc radoc = auxiliar.createRadoc();
+        parecerRepository.removeRadoc(Strings.IDTeste);
+        parecerRepository.persisteRadoc(radoc);
+
+        Radoc radocById = parecerRepository.radocById(Strings.IDTeste);
+        String radocByIdJson = gson.toJson(radocById);
+
+        Document radocByConexaoDocument = conexao.read(Strings.ID,
+                Strings.IDTeste, Strings.collectionRadoc);
+
+        String radocByConexaoJson = gson.toJson(radocByConexaoDocument);
+        Radoc radocByConexao = gson.fromJson(radocByConexaoJson,Radoc.class);
+        String radocByConexaoJsonTeste = gson.toJson(radocByConexao);
+
+        Assert.assertEquals(radocByIdJson,radocByConexaoJsonTeste);
+    }
+
     @Test
     public void adicionaERemoveRadoc() {
         Radoc radoc = auxiliar.createRadoc();
@@ -158,4 +185,21 @@ public class TesteParecer {
         parecerRepository.persisteRadoc(radoc);
     }
 
+    public void removeRadoc() {
+
+    }
+
+    @Test(expected = ExisteParecerReferenciandoRadoc.class)
+    public void removeRadocExecaoExcesaoExisteParecerReferenciandoRadoc() {
+        parecerRepository.removeParecer(Strings.IDTeste);
+        parecerRepository.removeRadoc(Strings.teste);
+
+        Parecer parecer = auxiliar.createParecer(true);
+        Radoc radoc = auxiliar.createRadoc();
+
+        parecerRepository.persisteParecer(parecer);
+        parecerRepository.persisteRadoc(radoc);
+
+        parecerRepository.removeRadoc(Strings.teste);
+    }
 }
