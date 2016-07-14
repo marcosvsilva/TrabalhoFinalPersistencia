@@ -34,7 +34,7 @@ public class TesteParecerRepositorioIMPL {
 
     @Test
     public void byId() {
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         parecerRepository.removeParecer(Strings.IDTeste);
         parecerRepository.persisteParecer(parecer);
 
@@ -69,7 +69,7 @@ public class TesteParecerRepositorioIMPL {
     public void adicionaERemoveParecer() {
         parecerRepository.removeParecer(Strings.IDTeste);
 
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         parecerRepository.persisteParecer(parecer);
         String parecerJson = gson.toJson(parecer);
 
@@ -86,13 +86,13 @@ public class TesteParecerRepositorioIMPL {
 
     @Test(expected = CampoExigidoNaoFornecido.class)
     public void adicionaParecerExcecaoCampoExigidoNaoFornecido() {
-        Parecer parecer = auxiliar.createParecer(false);
+        Parecer parecer = auxiliar.createParecer("");
         parecerRepository.persisteParecer(parecer);
     }
 
     @Test(expected = IdentificadorExistente.class)
     public void adicionaParecerExcecaoIdentificadorExistente() {
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         parecerRepository.persisteParecer(parecer);
         parecerRepository.persisteParecer(parecer);
     }
@@ -101,7 +101,7 @@ public class TesteParecerRepositorioIMPL {
     public void removeEAdicionaNota() {
         parecerRepository.removeParecer(Strings.IDTeste);
 
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         parecerRepository.persisteParecer(parecer);
 
         Parecer parecerOriginal = parecerRepository.byId(Strings.IDTeste);
@@ -135,7 +135,7 @@ public class TesteParecerRepositorioIMPL {
 
     @Test
     public void atualizaFundamentacao() {
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         parecerRepository.persisteParecer(parecer);
 
         Parecer parecerOriginal = parecerRepository.byId(Strings.IDTeste);
@@ -217,7 +217,7 @@ public class TesteParecerRepositorioIMPL {
         parecerRepository.removeParecer(Strings.IDTeste);
         parecerRepository.removeRadoc(Strings.teste);
 
-        Parecer parecer = auxiliar.createParecer(true);
+        Parecer parecer = auxiliar.createParecer(Strings.IDTeste);
         Radoc radoc = auxiliar.createRadoc(Strings.teste);
 
         parecerRepository.persisteParecer(parecer);

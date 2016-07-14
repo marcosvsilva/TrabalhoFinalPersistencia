@@ -100,7 +100,47 @@ public class Strings
     public static final Integer quantidadeMaximaTeste = 2;
 
     /**
-     * Ano base para teste de radoc
+     * Ano base para teste de radoc.
      */
     public static final Integer anoBaseTestRadoc = 2010;
+
+    /**
+     * Tipo para teste de regra.
+     */
+    public static final Integer tipoTesteRegra = 0;
+
+    /**
+     * Expressao para teste de regras.
+     */
+    public static final String expressaoTesteRegra = "(n1+n2)/2=x";
+
+    /**
+     * Variavel da expressao para teste de regras.
+     */
+    public static final String variavelTesteRegra = "x";
+
+    /**
+     * Valor mínimo para teste de regra.
+     */
+    public static final float valorMinimoTesteRegra = 6;
+
+    /**
+     * Valor máximo para teste de regra.
+     */
+    public static final float valorMaximoTesteRegra = 10;
+
+    /**
+     * String caso a expressao seja válida para teste de Regra.
+     */
+    public static final String entaoTesteRegra = "aprovado";
+
+    /**
+     * String caso a expressao seja inválida para teste de Regra.
+     */
+    public static final String senaoTesteRegra = "reprovado";
+
+    /**
+     * Ponto por item para teste de Regra.
+     */
+    public static float pontoPorItemTesteRegra = 1;
 }

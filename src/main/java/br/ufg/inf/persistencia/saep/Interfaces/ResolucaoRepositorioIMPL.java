@@ -1,11 +1,9 @@
 package br.ufg.inf.persistencia.saep.interfaces;
 
-import br.ufg.inf.persistencia.saep.auxiliares.Deserializacao;
 import br.ufg.inf.persistencia.saep.auxiliares.Strings;
 import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -17,14 +15,11 @@ import java.util.regex.Pattern;
  */
 public class ResolucaoRepositorioIMPL implements ResolucaoRepository {
 
-    private static Gson gson;
+    private static Gson gson = new Gson();
     private ConexaoBD conexao;
 
     public ResolucaoRepositorioIMPL(ConexaoBD conexao) {
         this.conexao = conexao;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
-        gson = gsonBuilder.create();
     }
 
     @Override

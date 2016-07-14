@@ -15,17 +15,12 @@ import java.util.*;
 public class TesteAuxiliar
 {
 
-    public Parecer createParecer(Boolean bolCriarComID){
+    public Parecer createParecer(String idParecer){
         ArrayList<String> radocs = createStrings();
 
         List<Pontuacao> pontuacao = createPontuacoes();
 
         List<Nota> notas = createNotas();
-
-        String idParecer = "";
-        if (bolCriarComID) {
-            idParecer = Strings.IDTeste;
-        }
 
         Parecer parecer = new Parecer(
                 idParecer,
@@ -47,6 +42,71 @@ public class TesteAuxiliar
         );
 
         return radoc;
+    }
+
+    public Resolucao createResolucao(String idResolucao){
+        Resolucao resolucao = new Resolucao(
+                idResolucao,
+                Strings.teste,
+                Strings.teste,
+                new Date(),
+                createRegras()
+        );
+
+        return resolucao;
+    }
+
+    public Tipo createTipo(String idTipo){
+        Tipo tipo = new Tipo(
+                idTipo,
+                Strings.teste,
+                Strings.teste,
+                createAtributos()
+        );
+
+        return tipo;
+    }
+
+    public Set<Atributo> createAtributos() {
+        Set<Atributo> atributos = new LinkedHashSet<>();
+
+        Atributo atributo = new Atributo(
+                Strings.teste,
+                Strings.teste,
+                Strings.tipoTesteRegra
+        );
+
+        atributos.add(atributo);
+        return atributos;
+    }
+
+    public List<Regra> createRegras() {
+        List<String> dependencias = new ArrayList<>();
+        List<Regra> regras = new ArrayList<>();
+
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
+            dependencias.add(Strings.teste);
+        }
+
+        Regra regra = new Regra(
+                Strings.variavelTesteRegra,
+                Strings.tipoTesteRegra,
+                Strings.teste,
+                Strings.valorMinimoTesteRegra,
+                Strings.valorMaximoTesteRegra,
+                Strings.expressaoTesteRegra,
+                Strings.entaoTesteRegra,
+                Strings.senaoTesteRegra,
+                Strings.teste,
+                Strings.pontoPorItemTesteRegra,
+                dependencias
+        );
+
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
+            regras.add(regra);
+        }
+
+        return regras;
     }
 
     public List<Relato> createRelatos(){
