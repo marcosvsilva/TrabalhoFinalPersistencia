@@ -104,7 +104,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository {
     }
 
     @Override
-    public void atualizaFundamentacao(String id, String fundamentacoes) {
+    public void atualizaFundamentacao(String id, String fundamentacao) {
         Parecer parecer = byId(id);
 
         if (parecer != null) {
@@ -113,7 +113,7 @@ public class ParecerRepositorioIMPL implements ParecerRepository {
                     parecer.getResolucao(),
                     parecer.getRadocs(),
                     parecer.getPontuacoes(),
-                    fundamentacoes,
+                    fundamentacao,
                     parecer.getNotas()
             );
 

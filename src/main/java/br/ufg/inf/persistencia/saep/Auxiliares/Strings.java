@@ -5,7 +5,8 @@ package br.ufg.inf.persistencia.saep.auxiliares;
  *
  * <p>Contêm todas strings fixas que são utilizadas pela aplicação.
  */
-public class Strings {
+public class Strings
+{
 
     /**
      * Endereço do arquivo de configuração.
@@ -97,4 +98,9 @@ public class Strings {
      * a modo de teste.
      */
     public static final Integer quantidadeMaximaTeste = 2;
+
+    /**
+     * Ano base para teste de radoc
+     */
+    public static final Integer anoBaseTestRadoc = 2010;
 }

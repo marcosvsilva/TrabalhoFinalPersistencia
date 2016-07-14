@@ -5,68 +5,90 @@ import br.ufg.inf.es.saep.sandbox.dominio.*;
 import java.util.*;
 
 /**
- * Created by Marcos on 12/07/2016.
+ * Classe auxiliar de teste.
+ *
+ * <p>Auxilia os testes implementando tudo que há necessario para
+ * a realização dos testes.
  */
 public class TesteAuxiliar
 {
-    public Parecer createParecer()
-    {
-        //Resolução aleatória
-        String resolucao = UUID.randomUUID().toString();
 
-        //Criando Radocs aleatórios
+    public Parecer createParecer(Boolean bolCriarComID){
         ArrayList<String> radocs = createStrings();
 
-        //Criando Pontuação Aleatória
         List<Pontuacao> pontuacao = createPontuacoes();
 
-        //Criando Notas Aleatorias
         List<Nota> notas = createNotas();
 
+        String idParecer = "";
+        if (bolCriarComID) {
+            idParecer = Strings.IDTeste;
+        }
+
         Parecer parecer = new Parecer(
-                Strings.IDTeste,             // identificador do parecer
-                Strings.IDTeste,             // identificador de resolucao
-                radocs,                      // radocs
-                pontuacao,                   // pontuação
-                Strings.teste,               // fundamentacao
-                notas                        // notas
+                idParecer,
+                Strings.IDTeste,
+                radocs,
+                pontuacao,
+                Strings.teste,
+                notas
         );
 
         return parecer;
     }
 
-    public ArrayList<String> createStrings()
-    {
-        ArrayList<String> stringsAleatorias = new ArrayList<>(); //criação do ArrayList
+    public Radoc createRadoc(){
+        Radoc radoc = new Radoc(
+                Strings.IDTeste,
+                Strings.anoBaseTestRadoc,
+                createRelatos()
+        );
 
-        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
-            stringsAleatorias.add(Strings.teste); //populando o ArrayList com strings aleatórias
+        return radoc;
+    }
+
+    public List<Relato> createRelatos(){
+        List<Relato> relatos = new ArrayList<>();
+
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
+            relatos.add(createRelato());
+        }
+
+        return relatos;
+    }
+
+    public ArrayList<String> createStrings() {
+        ArrayList<String> stringsAleatorias = new ArrayList<>();
+
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
+            stringsAleatorias.add(Strings.teste);
+        }
 
         return stringsAleatorias;
     }
 
-    public List<Pontuacao> createPontuacoes()
-    {
-        List<Pontuacao> pontuacoes = new ArrayList<>(); //criação do ArrayList
+    public List<Pontuacao> createPontuacoes() {
+        List<Pontuacao> pontuacoes = new ArrayList<>();
 
-        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
-            pontuacoes.add(new Pontuacao(Strings.teste,new Valor(Strings.teste))); //populando pontuações
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
+            pontuacoes.add(new Pontuacao(Strings.teste,
+                    new Valor(Strings.teste)));
+        }
 
         return pontuacoes;
     }
 
-    public List<Nota> createNotas()
-    {
-        ArrayList<Nota> notas = new ArrayList<>();
+    public List<Nota> createNotas() {
+        List<Nota> notas = new ArrayList<>();
 
-        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++)
+        for (int i = 0; i < Strings.quantidadeMaximaTeste; i++) {
             notas.add(createNota());
+        }
 
         return notas;
     }
 
-    public Nota createNota()
-    {
+    public Nota createNota() {
         Relato relatoOrigem = createRelato();
         Relato relatoDestino = createRelato();
 
@@ -75,8 +97,7 @@ public class TesteAuxiliar
         return nota;
     }
 
-    public Relato createRelato()
-    {
+    public Relato createRelato() {
         Map<String,Valor> relato = new HashMap<>();
         relato.put(Strings.teste,new Valor(Strings.teste));
         return new Relato(Strings.teste,relato);
