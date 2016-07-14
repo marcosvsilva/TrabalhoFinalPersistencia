@@ -11,7 +11,6 @@ import org.bson.Document;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.UUID;
 
@@ -86,13 +85,13 @@ public class TesteParecerRepositorioIMPL {
     }
 
     @Test(expected = CampoExigidoNaoFornecido.class)
-    public void adicionaParecerExecesaoCampoExigidoNaoFornecido() {
+    public void adicionaParecerExcecaoCampoExigidoNaoFornecido() {
         Parecer parecer = auxiliar.createParecer(false);
         parecerRepository.persisteParecer(parecer);
     }
 
     @Test(expected = IdentificadorExistente.class)
-    public void adicionaParecerExecesaoIdentificadorExistente() {
+    public void adicionaParecerExcecaoIdentificadorExistente() {
         Parecer parecer = auxiliar.createParecer(true);
         parecerRepository.persisteParecer(parecer);
         parecerRepository.persisteParecer(parecer);
@@ -100,6 +99,8 @@ public class TesteParecerRepositorioIMPL {
 
     @Test
     public void removeEAdicionaNota() {
+        parecerRepository.removeParecer(Strings.IDTeste);
+
         Parecer parecer = auxiliar.createParecer(true);
         parecerRepository.persisteParecer(parecer);
 
@@ -121,13 +122,13 @@ public class TesteParecerRepositorioIMPL {
     }
 
     @Test (expected = IdentificadorDesconhecido.class)
-    public void adicionaNotaExecaoIdentificadorDesconhecido(){
+    public void adicionaNotaExcecaoIdentificadorDesconhecido(){
         Nota nota = auxiliar.createNota();
         parecerRepository.adicionaNota("",nota);
     }
 
     @Test (expected = IdentificadorDesconhecido.class)
-    public void removeNotaExecaoIdentificadorDesconhecido(){
+    public void removeNotaExcecaoIdentificadorDesconhecido(){
         Nota nota = auxiliar.createNota();
         parecerRepository.removeNota("",nota.getItemOriginal());
     }
@@ -153,7 +154,7 @@ public class TesteParecerRepositorioIMPL {
     }
 
     @Test (expected = IdentificadorDesconhecido.class)
-    public void atualizaFundamentacaoExecaoIdentificadorDesconhecido() {
+    public void atualizaFundamentacaoExcecaoIdentificadorDesconhecido() {
         String fundamentacao = Strings.teste;
         String idParecer = "";
         parecerRepository.atualizaFundamentacao(idParecer,fundamentacao);
@@ -161,15 +162,17 @@ public class TesteParecerRepositorioIMPL {
 
     @Test
     public void radocByID() {
-        Radoc radoc = auxiliar.createRadoc();
-        parecerRepository.removeRadoc(Strings.IDTeste);
+        parecerRepository.removeParecer(Strings.IDTeste);
+        parecerRepository.removeRadoc(Strings.teste);
+
+        Radoc radoc = auxiliar.createRadoc(Strings.teste);
         parecerRepository.persisteRadoc(radoc);
 
-        Radoc radocById = parecerRepository.radocById(Strings.IDTeste);
+        Radoc radocById = parecerRepository.radocById(Strings.teste);
         String radocByIdJson = gson.toJson(radocById);
 
         Document radocByConexaoDocument = conexao.read(Strings.ID,
-                Strings.IDTeste, Strings.collectionRadoc);
+                Strings.teste, Strings.collectionRadoc);
 
         String radocByConexaoJson = gson.toJson(radocByConexaoDocument);
         Radoc radocByConexao = gson.fromJson(radocByConexaoJson,Radoc.class);
@@ -180,22 +183,42 @@ public class TesteParecerRepositorioIMPL {
 
     @Test
     public void adicionaERemoveRadoc() {
-        Radoc radoc = auxiliar.createRadoc();
+        parecerRepository.removeParecer(Strings.IDTeste);
+        parecerRepository.removeRadoc(Strings.teste);
 
+        Radoc radoc = auxiliar.createRadoc(Strings.teste);
+        parecerRepository.persisteRadoc(radoc);
+
+        Radoc radocGravado = parecerRepository.radocById(Strings.teste);
+        String radocGravadoJson = gson.toJson(radocGravado);
+
+        parecerRepository.removeRadoc(Strings.teste);
+        Radoc radocDeletado = parecerRepository.radocById(Strings.teste);
+        String radocDeletadoJson = gson.toJson(radocDeletado);
+
+        Assert.assertNotEquals(radocGravadoJson,radocDeletadoJson);
+    }
+
+    @Test(expected = CampoExigidoNaoFornecido.class)
+    public void adicionaRadocExcecaoCampoExigidoNaoFornecido() {
+        Radoc radoc = auxiliar.createRadoc("");
         parecerRepository.persisteRadoc(radoc);
     }
 
-    public void removeRadoc() {
-
+    @Test(expected = IdentificadorExistente.class)
+    public void adicionaRadocExcecaoIdentificadorExistente() {
+        Radoc radoc = auxiliar.createRadoc(Strings.teste);
+        parecerRepository.persisteRadoc(radoc);
+        parecerRepository.persisteRadoc(radoc);
     }
 
     @Test(expected = ExisteParecerReferenciandoRadoc.class)
-    public void removeRadocExecaoExcesaoExisteParecerReferenciandoRadoc() {
+    public void removeRadocExecaoExcecaoExisteParecerReferenciandoRadoc() {
         parecerRepository.removeParecer(Strings.IDTeste);
         parecerRepository.removeRadoc(Strings.teste);
 
         Parecer parecer = auxiliar.createParecer(true);
-        Radoc radoc = auxiliar.createRadoc();
+        Radoc radoc = auxiliar.createRadoc(Strings.teste);
 
         parecerRepository.persisteParecer(parecer);
         parecerRepository.persisteRadoc(radoc);

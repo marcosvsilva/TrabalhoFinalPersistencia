@@ -39,9 +39,9 @@ public class TesteAuxiliar
         return parecer;
     }
 
-    public Radoc createRadoc(){
+    public Radoc createRadoc(String idRadoc){
         Radoc radoc = new Radoc(
-                Strings.teste,
+                idRadoc,
                 Strings.anoBaseTestRadoc,
                 createRelatos()
         );
