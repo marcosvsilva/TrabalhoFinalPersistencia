@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Testes da implementação do repositório Resoluçao.
@@ -78,7 +79,8 @@ public class TesteResolucaoRepositorioIMPL
         Assert.assertEquals(resolucaoJson,resolucaoGravadoJson);
 
         resolucaoRepository.remove(Strings.IDTeste);
-        Resolucao resolucaoAposDelecao = resolucaoRepository.byId(Strings.IDTeste);
+        Resolucao resolucaoAposDelecao =
+                resolucaoRepository.byId(Strings.IDTeste);
 
         Assert.assertNull(resolucaoAposDelecao);
     }
@@ -115,6 +117,26 @@ public class TesteResolucaoRepositorioIMPL
     }
 
     @Test
+    public void tipoByCodigo() {
+        resolucaoRepository.remove(Strings.IDTeste);
+        resolucaoRepository.removeTipo(Strings.IDTeste);
+
+        Tipo tipo = auxiliar.createTipo(Strings.IDTeste);
+        resolucaoRepository.persisteTipo(tipo);
+
+        Tipo tipoByCodigo = resolucaoRepository.tipoPeloCodigo(Strings.IDTeste);
+        String tipoByCodigoJson = gson.toJson(tipoByCodigo);
+
+        Document tipoByConexaoDocument = conexao.read(Strings.ID,
+                Strings.IDTeste,Strings.collectionTipo);
+        String tipoByConexaoJson = gson.toJson(tipoByConexaoDocument);
+        Tipo tipoByConexao = gson.fromJson(tipoByConexaoJson, Tipo.class);
+        String tipoByConexaoJsonTest = gson.toJson(tipoByConexao);
+
+        Assert.assertEquals(tipoByCodigoJson,tipoByConexaoJsonTest);
+    }
+
+    @Test
     public void adionaERemoveTipo(){
         resolucaoRepository.remove(Strings.IDTeste);
         resolucaoRepository.removeTipo(Strings.IDTeste);
@@ -129,6 +151,32 @@ public class TesteResolucaoRepositorioIMPL
         Assert.assertEquals(tipoGravadoJson,tipoRetornadoJson);
     }
 
+    @Test
+    public void buscaTipoByNome(){
+        List<Tipo> tiposByNomes =
+                resolucaoRepository.tiposPeloNome(Strings.teste);
 
+        List<String> tiposIdByNome = new ArrayList<>();
 
+        for (Tipo tipo: tiposByNomes) {
+            tiposIdByNome.add(tipo.getId());
+        }
+
+        Document filter =
+                new Document(Strings.filterNome, Pattern.compile(Strings.teste));
+
+        Iterable<Document> tiposDocument =
+                conexao.readAllByFilter(filter,Strings.collectionTipo);
+
+        List<Tipo> tiposByConexao = new ArrayList<>();
+
+        List<String> tiposIdByConexao = new ArrayList<>();
+
+        for (Document tipo: tiposDocument) {
+                String json = gson.toJson(tipo);
+                tiposIdByConexao.add(gson.fromJson(json,Tipo.class).getId());
+        }
+
+        Assert.assertEquals(tiposIdByNome,tiposIdByConexao);
+    }
 }
