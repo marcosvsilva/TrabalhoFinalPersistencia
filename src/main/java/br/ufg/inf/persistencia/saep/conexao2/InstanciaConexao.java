@@ -1,6 +1,6 @@
-package br.ufg.inf.persistencia.saep.conexao;
+package br.ufg.inf.persistencia.saep.conexao2;
 
-import br.ufg.inf.persistencia.saep.auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.auxiliares2.Strings;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

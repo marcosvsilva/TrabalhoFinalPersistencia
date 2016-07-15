@@ -1,10 +1,10 @@
 package br.ufg.inf.persistencia.saep;
 
 import br.ufg.inf.es.saep.sandbox.dominio.*;
-import br.ufg.inf.persistencia.saep.auxiliares.Deserializacao;
-import br.ufg.inf.persistencia.saep.auxiliares.Strings;
-import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
-import br.ufg.inf.persistencia.saep.interfaces.ParecerRepositorioIMPL;
+import br.ufg.inf.persistencia.saep.auxiliares2.Deserializacao;
+import br.ufg.inf.persistencia.saep.auxiliares2.Strings;
+import br.ufg.inf.persistencia.saep.conexao2.ConexaoBD;
+import br.ufg.inf.persistencia.saep.interfaces2.ParecerRepositorioIMPL;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bson.Document;

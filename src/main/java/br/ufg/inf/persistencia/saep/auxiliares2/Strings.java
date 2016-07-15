@@ -1,4 +1,4 @@
-package br.ufg.inf.persistencia.saep.auxiliares;
+package br.ufg.inf.persistencia.saep.auxiliares2;
 
 /**
  * Classe auxiliar que contêm as strings utilizadas na aplicação.
