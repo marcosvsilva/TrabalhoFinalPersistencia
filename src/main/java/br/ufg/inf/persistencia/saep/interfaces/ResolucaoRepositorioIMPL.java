@@ -1,7 +1,7 @@
-package br.ufg.inf.persistencia.saep.interfaces2;
+package br.ufg.inf.persistencia.saep.interfaces;
 
-import br.ufg.inf.persistencia.saep.auxiliares2.Strings;
-import br.ufg.inf.persistencia.saep.conexao2.ConexaoBD;
+import br.ufg.inf.persistencia.saep.auxiliares.Strings;
+import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
 import org.bson.Document;

@@ -1,4 +1,4 @@
-package br.ufg.inf.persistencia.saep.conexao2;
+package br.ufg.inf.persistencia.saep.conexao;
 
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;

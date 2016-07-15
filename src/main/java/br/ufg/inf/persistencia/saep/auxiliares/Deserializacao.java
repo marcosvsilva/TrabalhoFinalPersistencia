@@ -1,4 +1,4 @@
-package br.ufg.inf.persistencia.saep.auxiliares2;
+package br.ufg.inf.persistencia.saep.auxiliares;
 
 import br.ufg.inf.es.saep.sandbox.dominio.Avaliavel;
 import br.ufg.inf.es.saep.sandbox.dominio.Nota;
