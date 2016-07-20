@@ -1,7 +1,7 @@
 package br.ufg.inf.persistencia.saep.interfaces;
 
 import br.ufg.inf.persistencia.saep.auxiliares.Strings;
-import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.conexao.MongoDataBase;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
 import org.bson.Document;
@@ -12,13 +12,16 @@ import java.util.regex.Pattern;
 
 /**
  * Implmentação da interface do repositório Resolução.
+ *
+ * Essa implementação de persistência utiliza banco de dados noSQL
+ * MongoDB versão 3.2.7
  */
-public class ResolucaoRepositorioIMPL implements ResolucaoRepository {
+public class ResolucaoRepositorioMongoDataBase implements ResolucaoRepository {
 
     private static Gson gson = new Gson();
-    private ConexaoBD conexao;
+    private MongoDataBase conexao;
 
-    public ResolucaoRepositorioIMPL(ConexaoBD conexao) {
+    public ResolucaoRepositorioMongoDataBase(MongoDataBase conexao) {
         this.conexao = conexao;
     }
 

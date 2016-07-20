@@ -1,10 +1,10 @@
 package br.ufg.inf.persistencia.saep;
 
 import br.ufg.inf.es.saep.sandbox.dominio.*;
-import br.ufg.inf.persistencia.saep.auxiliares.Deserializacao;
-import br.ufg.inf.persistencia.saep.auxiliares.Strings;
-import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
-import br.ufg.inf.persistencia.saep.interfaces.ParecerRepositorioIMPL;
+import br.ufg.inf.persistencia.saep.auxiliares.*;
+import br.ufg.inf.persistencia.saep.conexao.*;
+import br.ufg.inf.persistencia.saep.conexao.MongoDataBase;
+import br.ufg.inf.persistencia.saep.interfaces.ParecerRepositorioMongoDataBase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bson.Document;
@@ -17,16 +17,17 @@ import java.util.UUID;
 /**
  * Testes da implementação do repositório Parecer.
  */
-public class TesteParecerRepositorioIMPL {
+public class TesteParecerRepositorioMongoDataBase {
 
     private static ParecerRepository parecerRepository;
-    private static ConexaoBD conexao = new ConexaoBD();
+    private static MongoDataBase conexao = new MongoDataBase(
+            InstanciaConexao.getConnection());
     private static TesteAuxiliar auxiliar = new TesteAuxiliar();
     private static Gson gson;
 
     @BeforeClass
     public static void setup() {
-        parecerRepository = new ParecerRepositorioIMPL(conexao);
+        parecerRepository = new ParecerRepositorioMongoDataBase(conexao);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
         gson = gsonBuilder.create();

@@ -17,6 +17,7 @@ public class Strings
     public static final String enderecoConfiguracao =
             "./Configuracao/config.properties";
 
+
     /**
      * Tag do banco de dados no arquivo de configuração.
      *
@@ -25,6 +26,24 @@ public class Strings
      * do arquivo de configuração.
      */
     public static final String tagDataBase = "DataBase";
+
+    /**
+     * Tag do endereço que roda o banco de dados no arquivo de configuração.
+     *
+     * <p>Tag que identifica o atributo que se refere ao endereço onde roda
+     * o banco de dados que será utilizado na aplicação dentro
+     * do arquivo de configuração.
+     */
+    public static final String tagEndereco = "Endereco";
+
+    /**
+     * Tag da porta em que o banco de dados "escuta" no arquivo de configuração.
+     *
+     * <p>Tag que identifica o atributo que se refere a porta em que o
+     * banco de dados "escuta" que será utilizado na aplicação dentro
+     * do arquivo de configuração.
+     */
+    public static final String tagPorta = "Porta";
 
     /**
      * Nome da collection parecer.

@@ -15,16 +15,16 @@ import static com.mongodb.client.model.Filters.eq;
  * <p>Para realizar qualquer operação no banco de dados, estes,
  * serão utilizados.
  */
-public class ConexaoBD {
+public class MongoDataBase {
 
     private Gson gson = new Gson();
     private MongoDatabase mongo;
 
     /**
-     * Instância uma nova conexão com o banco de dados.
+     * Instância a conexão com o banco de dados.
      */
-    public ConexaoBD() {
-        this.mongo = InstanciaConexao.getConnection();
+    public MongoDataBase(MongoDatabase mongo) {
+        this.mongo = mongo;
     }
 
     /**

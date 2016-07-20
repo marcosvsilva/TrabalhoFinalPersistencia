@@ -1,7 +1,7 @@
 package br.ufg.inf.persistencia.saep.interfaces;
 
 import br.ufg.inf.persistencia.saep.auxiliares.Deserializacao;
-import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
+import br.ufg.inf.persistencia.saep.conexao.MongoDataBase;
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,13 +12,16 @@ import java.util.List;
 
 /**
  * Implmentação da interface do repositório Parecer.
+ *
+ * Essa implementação de persistência utiliza banco de dados noSQL
+ * mongoDB versão 3.2.7
  */
-public class ParecerRepositorioIMPL implements ParecerRepository {
+public class ParecerRepositorioMongoDataBase implements ParecerRepository {
 
     private static Gson gson;
-    private ConexaoBD conexao;
+    private MongoDataBase conexao;
 
-    public ParecerRepositorioIMPL(ConexaoBD conexao) {
+    public ParecerRepositorioMongoDataBase(MongoDataBase conexao) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Nota.class, new Deserializacao());
         gson = gsonBuilder.create();

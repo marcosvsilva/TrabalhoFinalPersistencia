@@ -2,8 +2,8 @@ package br.ufg.inf.persistencia.saep;
 
 import br.ufg.inf.es.saep.sandbox.dominio.*;
 import br.ufg.inf.persistencia.saep.auxiliares.Strings;
-import br.ufg.inf.persistencia.saep.conexao.ConexaoBD;
-import br.ufg.inf.persistencia.saep.interfaces.ResolucaoRepositorioIMPL;
+import br.ufg.inf.persistencia.saep.conexao.*;
+import br.ufg.inf.persistencia.saep.interfaces.ResolucaoRepositorioMongoDataBase;
 import com.google.gson.Gson;
 import org.bson.Document;
 import org.junit.Assert;
@@ -17,17 +17,18 @@ import java.util.regex.Pattern;
 /**
  * Testes da implementação do repositório Resoluçao.
  */
-public class TesteResolucaoRepositorioIMPL
+public class TesteResolucaoRepositorioMongoDataBase
 {
 
     private static ResolucaoRepository resolucaoRepository;
-    private static ConexaoBD conexao = new ConexaoBD();
+    private static MongoDataBase conexao = new MongoDataBase(
+            InstanciaConexao.getConnection());
     private static TesteAuxiliar auxiliar = new TesteAuxiliar();
     private static Gson gson = new Gson();
 
     @BeforeClass
     public static void setup() {
-        resolucaoRepository = new ResolucaoRepositorioIMPL(conexao);
+        resolucaoRepository = new ResolucaoRepositorioMongoDataBase(conexao);
     }
 
     @Test
