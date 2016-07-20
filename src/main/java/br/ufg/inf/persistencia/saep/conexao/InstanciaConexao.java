@@ -111,9 +111,8 @@ public class InstanciaConexao {
     /**
      * Criação da conexão com o banco de dados.
      *
-     * <p>Método que é executado uma única vez, na leitura da classe.
-     * Teste se a conexão já existe, se existir, retorna está conexão, caso
-     * não exista, é criada uma conexão e retornada está nova conexão.
+     * <p>Método que é executado uma única vez, na leitura da classe, que cria
+     * uma única conexão com o banco.
      */
     static {
         try {
