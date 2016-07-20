@@ -6,8 +6,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.io.FileInputStream;
@@ -34,10 +32,10 @@ public class InstanciaConexao {
     /**
      * Faz a leitura do arquivo de configuração.
      *
-     * <p>O arquivo de configuração contém o nome do banco de dados
-     * a ser utilizado pela aplicação.
+     * <p>O arquivo de configuração contém todas informações importantes
+     * para a conexão da aplicação com o banco de dados.
      *
-     * @return nome do banco de dados a ser utilizado.
+     * @return arquivo de configurações
      * @throws IOException caso ocorra um erro de leitura do arquivo.
      */
     private static Properties getProperties() {
